@@ -2,7 +2,7 @@ FROM nginx:1.11-alpine
 
 ENV ECS_GEN_RELEASE 0.3.1
 
-RUN apk add --update bash openssl && \
+RUN apk add --update bash ca-certificates openssl && \
     rm -rf /var/cache/apk/*
 
 RUN wget -q https://github.com/codesuki/ecs-gen/releases/download/$ECS_GEN_RELEASE/ecs-gen-linux-amd64.zip && \
