@@ -12,4 +12,6 @@ RUN wget -q https://github.com/codesuki/ecs-gen/releases/download/$ECS_GEN_RELEA
 
 COPY nginx.tmpl nginx.tmpl
 
-CMD ["nginx", "-g", "daemon off;"] && ecs-gen --signal="nginx -s reload" --template=nginx.tmpl --output=/etc/nginx/conf.d/default.conf
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+CMD nginx && ecs-gen --signal="nginx -s reload" --template=nginx.tmpl --output=/etc/nginx/conf.d/default.conf
