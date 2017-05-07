@@ -48,7 +48,7 @@ upstream {{ $domain }} {
 }
 server {
         server_name {{ $domain }};
-        listen 80;
+        listen 8080;
         access_log /var/log/nginx/access.log vhost;
         location / {
                 proxy_pass http://{{ $domain }};
