@@ -28,7 +28,7 @@ proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
 proxy_set_header Proxy "";
 server {
         server_name _; # This is just an invalid value which will never trigger on a real hostname.
-        listen 80;
+        listen 8080;
         access_log /var/log/nginx/access.log vhost;
         location = / {
                 return 200 'nginx is alive';
