@@ -1,6 +1,6 @@
 FROM nginx:1.13-alpine
 
-ENV ECS_GEN_RELEASE 0.3.2
+ENV ECS_GEN_RELEASE 0.4.0
 
 RUN apk add --update bash ca-certificates openssl && \
     rm -rf /var/cache/apk/* && \
