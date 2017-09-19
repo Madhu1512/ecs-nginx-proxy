@@ -45,13 +45,18 @@ upstream {{ $domain }} {
     {{ range $_, $value := $container }}
          server {{ $value.Address }}:{{ $value.Port }};
     {{ end }}
+    keepalive 15;
 }
 server {
         server_name {{ $domain }};
         listen 8080;
+        keepalive_timeout 60s;
         access_log /var/log/nginx/access.log vhost;
         location / {
                 proxy_pass http://{{ $domain }};
+                proxy_set_header Connection "Keep-Alive";
+                proxy_set_header Proxy-Connection "Keep-Alive";
         }
+        
 }
 {{ end }}
