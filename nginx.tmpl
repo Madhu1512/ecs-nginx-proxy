@@ -50,7 +50,7 @@ upstream {{ $domain }} {
 server {
         server_name {{ $domain }};
         listen 8080;
-        keepalive_timeout 60s;
+        keepalive_timeout 120s;
         access_log /var/log/nginx/access.log vhost;
         location / {
                 proxy_pass http://{{ $domain }};
