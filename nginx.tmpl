@@ -42,16 +42,19 @@ server {
 
 {{ range $domain, $container := . }}
 upstream {{ $domain }} {
-    {{ range $_, $value := $container }}
-         server {{ $value.Address }}:{{ $value.Port }};
-    {{ end }}
+    {{- range $_, $value := $container }}
+        server {{ $value.Address }}:{{ $value.Port }};
+    {{- end }}
+        keepalive 15;
 }
 server {
-        server_name {{ $domain }};
+        server_name {{ (index $container 0).Host }};
         listen 8080;
         access_log /var/log/nginx/access.log vhost;
         location / {
-                proxy_pass http://{{ $domain }};
+                proxy_pass http://{{ $name }};
+                proxy_set_header Connection "Keep-Alive";
+                proxy_set_header Proxy-Connection "Keep-Alive";
         }
 }
 {{ end }}
