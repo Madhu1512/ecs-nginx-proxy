@@ -40,8 +40,8 @@ server {
 }
 
 
-{{ range $domain, $container := . }}
-upstream {{ $domain }} {
+{{ range $name, $container := . }}
+upstream {{ $name }} {
     {{- range $_, $value := $container }}
         server {{ $value.Address }}:{{ $value.Port }};
     {{- end }}
