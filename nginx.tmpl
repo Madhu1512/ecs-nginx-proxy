@@ -52,8 +52,6 @@ server {
         access_log /var/log/nginx/access.log vhost;
         location / {
                 proxy_pass http://{{ $domain }};
-                proxy_set_header Connection "Keep-Alive";
-                proxy_set_header Proxy-Connection "Keep-Alive";
         }
 }
 {{ end }}
