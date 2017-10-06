@@ -51,6 +51,7 @@ server {
         server_name {{ (index $container 0).Host }};
         listen 8080;
         access_log /var/log/nginx/access.log vhost;
+        client_max_body_size 500M;
         location / {
                 proxy_pass http://{{ $name }};
                 proxy_set_header Connection "Keep-Alive";
