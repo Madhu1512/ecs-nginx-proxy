@@ -2,8 +2,12 @@ FROM nginx:1.13-alpine
 
 ARG ECS_GEN_RELEASE=0.4.0-custom
 
-RUN apk add --update bash ca-certificates openssl && \
+RUN apk add --update bash ca-certificates openssl \
+    python py-setuptools py-pip && \
+    pip install --upgrade pip && \
+    pip install supervisor==3.3.3 && \
     rm -rf /var/cache/apk/* && \
+    echo "daemon off;" >> /etc/nginx/nginx.conf && \
     sed -i 's/^http {/&\n    keepalive_requests 10000;/g' /etc/nginx/nginx.conf && \
     sed -i 's/worker_processes  1/worker_processes  auto/' /etc/nginx/nginx.conf && \
     sed -i 's/keepalive_timeout  65/keepalive_timeout  650/' /etc/nginx/nginx.conf && \
@@ -13,5 +17,5 @@ RUN apk add --update bash ca-certificates openssl && \
     rm -rf ecs-gen-linux-amd64*
 
 COPY nginx.tmpl nginx.tmpl
-
-CMD nginx && ecs-gen --signal="nginx -s reload" --template=nginx.tmpl --output=/etc/nginx/conf.d/default.conf
+COPY supervisord.conf /etc/supervisor/
+ENTRYPOINT ["supervisord", "--configuration", "/etc/supervisor/supervisord.conf"]
