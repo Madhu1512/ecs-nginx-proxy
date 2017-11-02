@@ -78,7 +78,6 @@ server {
         server_name {{ (index $container 0).Host }};
         listen 8080;
         access_log /var/log/nginx/access.log vhost;
-        client_max_body_size 1000M;
         location / {
                 proxy_pass {{ (index $container 0).Protocal }}://{{ $name }};
         }
